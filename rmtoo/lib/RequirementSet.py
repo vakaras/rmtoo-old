@@ -95,24 +95,26 @@ class RequirementSet(Digraph, MemLogStore):
 
     def read(self, directory):
         everythings_fine = True
-        files = os.listdir(directory)
-        for f in files:
-            m = re.match("^.*\.req$", f)
-            if m==None:
-                continue
-            rid = f[:-4]
-            fd = file(os.path.join(directory, f))
-            req = Requirement(fd, rid, self, self.mods, self.opts, self.config)
-            if req.ok():
-                # Store in the map, so that it is easy to access the
-                # node by id.
-                self.reqs[req.id] = req
-                # Also store it in the digraph's node list for simple
-                # access to the digraph algorithms.
-                self.nodes.append(req)
-            else:
-                self.error(45, "could not be parsed", req.id)
-                everythings_fine = False
+        for (path, dirs, files) in os.walk(directory):
+            prefix = path[len(directory):]
+            for f in files:
+                m = re.match("^.*\.req$", f)
+                if m==None:
+                    continue
+                rid = os.path.join(prefix, f[:-4])
+                fd = file(os.path.join(path, f))
+                req = Requirement(
+                        fd, rid, self, self.mods, self.opts, self.config)
+                if req.ok():
+                    # Store in the map, so that it is easy to access the
+                    # node by id.
+                    self.reqs[req.id] = req
+                    # Also store it in the digraph's node list for simple
+                    # access to the digraph algorithms.
+                    self.nodes.append(req)
+                else:
+                    self.error(45, "could not be parsed", req.id)
+                    everythings_fine = False
         self.ts = time.time()
         return everythings_fine
 
