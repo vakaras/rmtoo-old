@@ -96,7 +96,7 @@ class RequirementSet(Digraph, MemLogStore):
     def read(self, directory):
         everythings_fine = True
         for (path, dirs, files) in os.walk(directory):
-            prefix = path[len(directory):]
+            prefix = path[len(directory) + 1:]
             for f in files:
                 m = re.match("^.*\.req$", f)
                 if m==None:
