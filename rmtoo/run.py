@@ -2,7 +2,7 @@
 
 
 import sys
-from rmtoo.lib import RmtooMain.main
+from rmtoo.lib import RmtooMain
 
 
 def main():
