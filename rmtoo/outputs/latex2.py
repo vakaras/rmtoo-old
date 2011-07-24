@@ -181,7 +181,7 @@ class latex2:
         i=0
         for rattr in self.config["req_attributes"]:
             if rattr=="Id":
-                fd.write("\\textbf{Id:} & %s " % req.id)
+                fd.write("\\textbf{Id:} & \\verb|%s| " % req.id)
             elif rattr=="Priority":
                 fd.write("\\textbf{Priority:} & %4.2f " 
                          % (req.get_value("Priority")*10))
