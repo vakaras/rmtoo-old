@@ -79,4 +79,7 @@ setup(name=package, version=version,
       license="GPL V3",
       platforms="all",
       scripts=["bin/rmtoo", "bin/rmtoo-normalize-dependencies"],
+      entry_points = {
+              'console_scripts': ['rmtoo = rmtoo.run:main'],
+              },
      )
