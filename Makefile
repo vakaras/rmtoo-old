@@ -62,7 +62,7 @@ clean:
 PYSETUP = python setup.py
 
 .PHONY: install
-install: 
+install:
 	$(PYSETUP) install --prefix=${DESTDIR}/usr \
 		--install-scripts=${DESTDIR}/usr/bin
 
@@ -79,5 +79,3 @@ deb:
 last_test:
 	nosetests -w rmtoo -v -s \
 		tests/blackbox-test/bb010-test/test-bb010.py
-
-# 3 4 10 14

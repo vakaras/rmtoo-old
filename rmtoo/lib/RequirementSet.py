@@ -13,6 +13,7 @@ import os
 import re
 import sys
 import time
+import codecs
 import operator
 import StringIO
 
@@ -102,7 +103,7 @@ class RequirementSet(Digraph, MemLogStore):
                 if m==None:
                     continue
                 rid = os.path.join(prefix, f[:-4])
-                fd = file(os.path.join(path, f))
+                fd = codecs.open(os.path.join(path, f), "r", "utf-8")
                 req = Requirement(
                         fd, rid, self, self.mods, self.opts, self.config)
                 if req.ok():
@@ -122,7 +123,8 @@ class RequirementSet(Digraph, MemLogStore):
     # major points. 
     def read_constraints(self, directories):
         everythings_fine = True
-        for d in directories:
+        for da in directories:
+            d = unicode(da, "utf-8")
             if not os.path.isdir(d):
                 print("+++ WARN: skipping non-existant constraint "
                       "directory [%s]" % d)
@@ -140,7 +142,7 @@ class RequirementSet(Digraph, MemLogStore):
             if m==None:
                 continue
             rid = f[:-4]
-            fd = file(os.path.join(directory, f))
+            fd = codecs.open(os.path.join(directory, f), "r", "utf-8")
             cnstrnt = Constraint(fd, rid, self, self.mods, 
                                  self.opts, self.config)
             if cnstrnt.ok():
